@@ -1,0 +1,31 @@
+extends layout
+
+link(rel="stylesheet", href="./public/stylesheets/style.css")
+block content
+  p Pretraži:
+  form(action="/sql", method="get")
+    div
+      span= "Uključi ranjivost?"
+      input(name="on", type="checkbox", value="on", checked=(onsql ? "checked" : undefined))
+    input(name="filter", class="filter", value=filter)
+    input(type="submit", value="Traži")
+
+  each klub in klubovi
+    div
+      each item in klub
+        span= item
+        span= " | "
+  br
+  br
+
+  form(action="/login", method="post")
+    div
+      span= "Uključi ranjivost?"
+      input(name="on2", type="checkbox", value="on2", checked=(onba ? "checked" : undefined))
+    label(for="username")="Username: "
+    input(name="username")
+    br
+    label(for="password")= "Password: " 
+    input(name="password")
+    br
+    input(type="submit", value="Login")
