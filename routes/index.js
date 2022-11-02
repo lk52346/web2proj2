@@ -29,6 +29,8 @@ async function getUser(user){
   return result.rows
 }
 
+var zahtjevi = []
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -50,10 +52,30 @@ router.post('/login', async function(req, res, next) {
   var user = req.body.username
   var password = req.body.password
 
+  var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+
   var chk = req.body.on2 == "on2"
 
   var userDB = await getUser(user)
   var poruka = ""
+
+  
+  if(!chk){
+    var zahtjev = zahtjevi.find(a=>a.ip==ip)
+    var date = new Date()
+    if (zahtjev){
+      var vrijeme = zahtjev.vrijeme
+      zahtjevi.find(a=>a.ip==ip).vrijeme = Math.round(date.getTime()/1000)
+      if(vrijeme > Math.round(date.getTime()/1000) - 3){
+        poruka = "Previše puta ste se probali prijaviti u kratkom roku"
+        res.render('index', { klubovi: {}, poruka: poruka, onba: chk, username: user});
+        return;
+      }
+      
+    } else{
+      zahtjevi.push({ip: ip, vrijeme: Math.round(date.getTime()/1000)});
+    }
+  }
 
   if (userDB.length > 0){
     if(hash(password).localeCompare(userDB[0].passwordhash)==0){
