@@ -2,7 +2,10 @@ extends layout
 
 link(rel="stylesheet", href="./public/stylesheets/style.css")
 block content
-  p Pretraži:
+  h1 SQL Injection:
+  p Ova pretraga služi za pretraživanje nogometnih klubova (npr. Dinamo, Hajduk...), no ako je ranjivost uključena, podložno je SQL umetanju
+  p Hint: ' UNION SELECT id, note FROM admindata --
+  p ' UNION SELECT id, passwordhash FROM users --
   form(action="/sql", method="get")
     div
       span= "Uključi ranjivost?"
@@ -18,14 +21,19 @@ block content
   br
   br
 
+  h1 Bad Authentication
+  p Kad se korisnik pokušava ulogirati, povratna informacija uključuje podatak o tome što je uneseno krivo. Ukoliko je ranjivost isključena, daje se samo informacija je li prijava bila uspješna ili ne.
+  p Hint: (username: admin, password: admin), (username: luka22, password: luka22)
   form(action="/login", method="post")
     div
       span= "Uključi ranjivost?"
       input(name="on2", type="checkbox", value="on2", checked=(onba ? "checked" : undefined))
     label(for="username")="Username: "
-    input(name="username")
+    input(name="username", value=username)
     br
     label(for="password")= "Password: " 
     input(name="password")
     br
     input(type="submit", value="Login")
+
+  p=poruka
