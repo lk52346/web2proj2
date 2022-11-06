@@ -52,7 +52,7 @@ router.post('/login', async function(req, res, next) {
   var user = req.body.username
   var password = req.body.password
 
-  var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+  var ip = req.body.ip
 
   var chk = req.body.on2 == "on2"
 

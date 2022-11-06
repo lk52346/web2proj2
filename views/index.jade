@@ -26,6 +26,7 @@ block content
   p Također, dok je ranjivost isključena, limitira se dozvoljena frekvencija slanja zahtjeva za prijavu (smije poslati samo 1 zahtjev u 3 sekunde). Dok je ranjivost uključena, tog mehanizma nema.
   p Hint: (username: admin, password: admin), (username: luka22, password: luka22)
   form(action="/login", method="post")
+    input(type="hidden" name="ip" id="ip")
     div
       span= "Uključi ranjivost?"
       input(name="on2", type="checkbox", value="on2", checked=(onba ? "checked" : undefined))
@@ -38,3 +39,6 @@ block content
     input(type="submit", value="Login")
 
   p=poruka
+
+  script(async)
+    | fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>document.getElementById('ip').value = d.ip);
