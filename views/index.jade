@@ -40,7 +40,5 @@ block content
   
   p=poruka
 
-  div(id="ip2")
-
   script(async)
-    | fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{document.getElementById('ip').value = d.ip; document.getElementById('ip2').innerHTML = d.ip});
+    | fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{document.getElementById('ip').value = d.ip});
